@@ -5,11 +5,9 @@ const {students} = require('./data.js');
  
 app.use(express.static('Public'));
 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .send('Hello, world!')
-    .end();
+app.get('/students', (req, res) => {
+    console.log("Getting students in server");
+    res.status(200).send(students);
 });
  
 // Start the server
