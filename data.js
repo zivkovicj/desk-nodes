@@ -1,4 +1,4 @@
-const students = [
+exports.students = [
     {
         first_name: "Domenick",
         last_name: "Dobbs"
@@ -11,4 +11,4 @@ const students = [
         first_name: "John",
         last_name: "Doe"
     }
-]
+];
