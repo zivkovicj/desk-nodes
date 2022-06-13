@@ -5,3 +5,19 @@ body{
 td {
     text-align: center;
 }
+#fetch-button-1{
+    color: rgb(245, 240, 240);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    background-color: red;
+    padding: 15px 32px;
+    border: bold;
+    border-radius: 12px;
+}
+
+#fetch-button-1:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
