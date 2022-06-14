@@ -1,26 +1,11 @@
 const container = document.getElementById('container');
 const fetchAllButton = document.getElementById("fetch-button-1");
+const deskConsultantButton = document.getElementById("desk-consult-button-1");
 
-const renderStudents = (response) => {
-    response.forEach(student => {
-        const newStud = document.createElement('div');
-        newStud.className = 'single-student';
-        newStud.innerHTML = `<div class="student_name">${student.first_name}</div>
-            <div class="student_name">- ${student.last_name}</div>`;
-        container.appendChild(newStud);
-    })
-}
-
-const renderTopics = (response) => {
-  response.forEach(topic => {
-      const newTopic = document.createElement('div');
-      newTopic.className = 'single-student';
-      newTopic.innerHTML = `<div class="topic_name">${topic.name}</div>`
-      container.appendChild(newTopic);
-  })
-}
+import { consultAlgo } from "./consult-algo.js";
 
 const renderTable = (students, topics, scores) => {
+  container.innerHTML = "";
   const score_table = document.createElement('table');
   const topic_header_row = document.createElement('tr');
   const corner_cell = document.createElement('td');
@@ -46,12 +31,29 @@ const renderTable = (students, topics, scores) => {
   container.appendChild(score_table);
 }
 
-fetchAllButton.addEventListener('click', () => {
-    let students;
-    let topics;
-    let scores;
+deskConsultantButton.addEventListener('click', () => {
+  consultAlgo();
+})
 
-    fetch('/students')
+fetchAllButton.addEventListener('click', () => {
+
+  let students;
+  let topics;
+  let scores;
+
+  fetch('/students')
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      //renderError(response);
+    }
+  })
+  .then(response => {
+    students = response;
+  })
+  .then(() => {
+    fetch('/topics')
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -60,36 +62,22 @@ fetchAllButton.addEventListener('click', () => {
       }
     })
     .then(response => {
-      students = response;
+      topics = response;
+    });
+  })
+  .then(() => {
+    fetch('/scores')
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        //renderError(response);
+      }
     })
-    .then(() => {
-      fetch('/topics')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          //renderError(response);
-        }
-      })
-      .then(response => {
-        topics = response;
-      });
-    })
-    .then(() => {
-      fetch('/scores')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          //renderError(response);
-        }
-      })
-      .then(response => {
-        console.log("Scores " + JSON.stringify(response));
-        scores = Array.from(response);
-        renderTable(students, topics, scores);
-      });
-    })
-
+    .then(response => {
+      scores = Array.from(response);
+      renderTable(students, topics, scores);
+    });
+  })
 });
 

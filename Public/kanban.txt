@@ -1,0 +1,28 @@
+Roadmap for Desk Nodes
+
+✓ Add more students and topics so that the algo has more to work with
+✓ Separate Scoresheet Button and Desk Constultants Button
+
+Consultants algo: 
+  Choose topics
+    Lowest scores, but available consultant
+  Dry the code that fetches all the data
+  Choose consultants
+  Choose groups
+  Display results
+    Arrange students into clusters of four
+    Highlight consultant student
+
+Finish student routes
+    Post
+    Put
+    Delete
+
+Finish topic routes
+    Post
+    Put
+    Delete
+
+Scoresheet is editable to change the scores
+
+Improve the appearance of the scoresheet
