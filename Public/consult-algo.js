@@ -25,6 +25,7 @@ const consultAlgo = () => {
         const sortThenIndex = (arr) => {
             const indArr = [];
             const sortedMedians = arr.slice().sort((a, b) => a - b);
+
             sortedMedians.forEach(elem => {
                 const idx = topicMedians.indexOf(elem);
                 indArr.push(idx);
@@ -34,7 +35,7 @@ const consultAlgo = () => {
         }
 
         const topicsByPriority = sortThenIndex(topicMedians);
-        console.log(topicsByPriority[0]);
+        console.log(topicsByPriority);
     }
 
     // Establish these vars that will be used in several places in this algo
