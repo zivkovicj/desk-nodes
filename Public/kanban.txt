@@ -5,7 +5,8 @@ Roadmap for Desk Nodes
 
 Consultants algo: 
   Choose topics
-    Lowest scores, but available consultant
+    In order of topic priority
+    Choose enough consultants for each topic to match need / 4
   Dry the code that fetches all the data
   Choose consultants
   Choose groups
