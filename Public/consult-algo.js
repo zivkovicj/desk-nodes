@@ -1,92 +1,101 @@
 const consultAlgo = () => {
 
-  // Function for finding the median of an array
-  const median = (numbers) => {
-    const sorted = Array.from(numbers).sort((a, b) => a - b);
-    const middle = Math.floor(sorted.length / 2);
-
-    if (sorted.length % 2 === 0) {
-      return (sorted[middle - 1] + sorted[middle]) / 2;
-    }
-
-    return sorted[middle];
-  }
-
   // Transpose a matrix (used for scores) so that the rows are arranged by topic instead of student.
   function transpose(matrix) {
     return matrix[0].map((col, i) => matrix.map(row => row[i]));
   }
 
   const sortThenIndex = (arr) => {
-    const indArr = [];
-    const sortedMedians = arr.slice().sort((a, b) => b - a);
+    const sortedArr = [];
+    const arrCopy = arr.slice();
+    const sortedTopics = arr.slice().sort((a, b) => b - a);
 
-    sortedMedians.forEach(elem => {
-      const idx = arr.indexOf(elem);
-      indArr.push(idx);
-      arr[idx] = -1;
+    sortedTopics.forEach(elem => {
+      const idx = arrCopy.indexOf(elem);
+      sortedArr.push(idx);
+      arrCopy[idx] = -1;
     })
-    return indArr;
-  }
-
-  const findTopicMedians = (scoresByTopic) => {
-    return scoresByTopic.map(elem => {
-      return median(elem);
-    })
+    return sortedArr;
   }
 
   const findStudentsNeeding = (scoresByTopic) => {
     return scoresByTopic.map(elem => {
       const studentsInNeed = elem.filter(j => {
-        return j < 70
+        return j <= 70
       }).length
       return Math.ceil(studentsInNeed / 4);
     })
   }
 
-  const sortTopicsByConsultantsNeeded = (consultantsNeeded) => {
-
-  }
-
-  const chooseConsultants = (topicsByPriority, transposedScores, consultantsNeeded) => {
+  const chooseInitialGroups = (topicsByConsultantsNeeded, transposedScores, consultantsNeeded) => {
     const potentialConsultants = [];
-    const actualConsultants = [];
-    const actualTopics = [];
-    
+    const consultantsAssigned = [];                                         // Holding the list of assigned students just for this function to prevent students from being double-booked
+    const oneFourthOfClass = Math.ceil(transposedScores[0].length / 4);     // Find one-fourth of the class by counting the students who have scores for the first topic.  This approach could turn out to be problematic.
+    const groups = [];
+
     transposedScores.forEach(topic => {
-      const consultantsForThisTopic = [];
+      const qualifiedForThisTopic = [];
       topic.forEach((score, i) => {
         if (score >= 70) {
-          consultantsForThisTopic.push(i);
+          qualifiedForThisTopic.push(i);
         }
       })
-      potentialConsultants.push(consultantsForThisTopic);
+      potentialConsultants.push(qualifiedForThisTopic);
     })
 
-    topicsByPriority.forEach(topic => {
-      console.log("topic "+topic);
-      console.log(potentialConsultants[topic]);
-      actualConsultants.push(potentialConsultants[topic]);
-      
+    for (let i = 0; i < topicsByConsultantsNeeded.length; i++) {
+      const topic = topicsByConsultantsNeeded[i];
+      let consultantsForThisTopic = 0;
+
+      for (let j = 0; j < potentialConsultants[topic].length; j++){
+        const student = potentialConsultants[topic][j];
+        
+        if (!consultantsAssigned.includes(student)) {
+          consultantsAssigned.push(student);
+          const thisGroup = [topic, true, [student]];                             // The second element is a binary to indicate whether the first student in this groups is a consultant.
+          groups.push(thisGroup);
+          consultantsForThisTopic++;
+          if (consultantsForThisTopic >= consultantsNeeded[topic]) { break; };    // Stop looking if this topic already has enough consultants assigned.
+          if (groups.length >= oneFourthOfClass) { break; };                      // Stop looking if the class has enough total consultants assigned.
+        }
+      }
+      if (groups.length >= oneFourthOfClass) { break; };                          // Stop looking if the class has enough total consultants assigned.  We do this in the inner loop and the outer loop for the corner cases where one passes and the other doesn't.
+    }
+
+    return groups;
+  }
+
+  const allocateStudents = (groups, students, transposedScores) => {
+    const alreadyAllocated = [];
+    groups.forEach(group => {
+      alreadyAllocated.push(group[2][0]);          // Mark the consultants as already allocated.
     })
+
+    for (let i = 0; i < students.length; i++) {
+      const thisStudentId = students[i].id;
+      if (alreadyAllocated.includes(thisStudentId)) { continue; };       
+      for (let j = 0; j < groups.length; j++) {
+        const thisGroup = groups[j];
+        const thisGroupsTopic = thisGroup[0];
+        
+        const studentNeedsThisTopic = transposedScores[thisGroupsTopic][thisStudentId] <= 70;
+        const groupHasRoom = thisGroup[2].length < 4;
+        if (studentNeedsThisTopic && groupHasRoom) {
+          thisGroup[2].push(thisStudentId);
+          break;
+        }
+      }
+    }
     
-    console.log("actualConsultants ");
-    console.log(actualConsultants);
-    return potentialConsultants;
+    console.log("Groups after allocation");
+    console.log(groups);
+    
   }
 
   const completeConsultantAlgo = () => {
     const transposedScores = transpose(allScores);
     //console.log("Transposed Scores");
     //console.log(transposedScores);
-
-    const topicMedians = findTopicMedians(transposedScores);
-    //console.log("Find Topic Medians");
-    //console.log(topicMedians);
-
-    const topicsByPriority = sortThenIndex(topicMedians);
-    console.log("topicsByPriority");
-    console.log(topicsByPriority);
 
     const consultantsNeeded = findStudentsNeeding(transposedScores);
     console.log("consultantsNeeded");
@@ -96,9 +105,15 @@ const consultAlgo = () => {
     console.log("topicsByConsultantsNeeded");
     console.log(topicsByConsultantsNeeded);
 
-    const consultants = chooseConsultants(topicsByPriority, transposedScores);
-    console.log("consultants");
-    console.log(consultants);
+    const initialGroups = chooseInitialGroups(topicsByConsultantsNeeded, transposedScores, consultantsNeeded);
+    console.log("initialGroups");
+    console.log(initialGroups);
+
+    const allocatedGroups = allocateStudents(initialGroups, students, transposedScores);
+    console.log("allocatedGroups");
+    console.log(allocatedGroups);
+    
+    
   }
 
   // Establish these vars that will be used in several places in this algo

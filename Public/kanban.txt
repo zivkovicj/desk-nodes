@@ -5,8 +5,10 @@ Roadmap for Desk Nodes
 
 Consultants algo: 
   Choose topics
-    In order of topic priority
-    Choose enough consultants for each topic to match need / 4
+    ✓In order of topic priority
+    ✓Choose enough consultants for each topic to match need / 4
+    ✓ Allocate remaining students into those groups
+    Allocate the students more evenly (maybe use groups as the outer loop.  Repeat the process four times.)
   Dry the code that fetches all the data
   Choose consultants
   Choose groups
