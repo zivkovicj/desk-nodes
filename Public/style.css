@@ -1,5 +1,5 @@
 body{
-    background-color: rgba(0, 123, 189, 0.822);
+    background-color: white;
 }
 
 td {
@@ -21,3 +21,8 @@ td {
     background-color: #4CAF50; /* Green */
     color: white;
   }
+
+
+.oneTable {
+    border-style: solid;
+}

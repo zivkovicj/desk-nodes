@@ -71,26 +71,32 @@ const consultAlgo = () => {
       alreadyAllocated.push(group[2][0]);          // Mark the consultants as already allocated.
     })
 
-    for (let i = 0; i < students.length; i++) {
-      const thisStudentId = students[i].id;
-      if (alreadyAllocated.includes(thisStudentId)) { continue; };       
-      for (let j = 0; j < groups.length; j++) {
-        const thisGroup = groups[j];
+    for (let n = 0; n < 4; n++){
+      
+      for (let i = 0; i < groups.length; i++) {
+        const thisGroup = groups[i];  
+        const groupIsFull = thisGroup[2].length >= 4
+        if (groupIsFull) {continue;} ;  
         const thisGroupsTopic = thisGroup[0];
-        
-        const studentNeedsThisTopic = transposedScores[thisGroupsTopic][thisStudentId] <= 70;
-        const groupHasRoom = thisGroup[2].length < 4;
-        if (studentNeedsThisTopic && groupHasRoom) {
-          thisGroup[2].push(thisStudentId);
-          break;
+
+        for (let j = 0; j < students.length; j++) {
+          const thisStudentId = students[j].id;
+          if (alreadyAllocated.includes(thisStudentId)) { continue; }; 
+          const studentNeedsThisTopic = transposedScores[thisGroupsTopic][thisStudentId] <= 70;
+          if (studentNeedsThisTopic) {
+            thisGroup[2].push(thisStudentId);
+            alreadyAllocated.push(thisStudentId);
+            break;
+          }
         }
       }
     }
     
-    console.log("Groups after allocation");
-    console.log(groups);
+    return groups;
     
   }
+
+
 
   const completeConsultantAlgo = () => {
     const transposedScores = transpose(allScores);
@@ -110,9 +116,48 @@ const consultAlgo = () => {
     console.log(initialGroups);
 
     const allocatedGroups = allocateStudents(initialGroups, students, transposedScores);
-    console.log("allocatedGroups");
-    console.log(allocatedGroups);
+
+    return allocatedGroups;
+  }
+
+  const renderGroups = (allocatedGroups, students, topics) => {
+    const container = document.getElementById('container');
+    container.innerHTML = "";
     
+    allocatedGroups.forEach(group => {
+      const thisDiv = document.createElement('div');
+      thisDiv.className = "oneTable";
+      const thisGroupTable = document.createElement('table');
+
+      const topicName = topics.find(topic => topic.id === group[0]).name
+      const topicNameCell = document.createElement('th');
+      topicNameCell.innerHTML = topicName;
+      thisGroupTable.appendChild(topicNameCell);
+
+      const firstPair = [group[2][0],group[2][1]];
+      const secondPair = [group[2][2],group[2][3]];
+
+      const makeRow = (pair) => {
+        pair.forEach(student_id => {
+          if (student_id) {
+            const studName = students.find(student => student.id === student_id).first_name;
+            const studCell = document.createElement('td');
+            studCell.innerHTML = studName;
+            thisRow.appendChild(studCell);
+          }
+        })
+        thisGroupTable.appendChild(thisRow);
+      }
+
+      let thisRow = document.createElement('tr');
+      makeRow(firstPair);
+      thisRow = document.createElement('tr');
+      makeRow(secondPair);
+
+      thisDiv.appendChild(thisGroupTable)
+      container.appendChild(thisDiv);
+    })
+
     
   }
 
@@ -156,8 +201,8 @@ const consultAlgo = () => {
     })
     .then(response => {
       allScores = Array.from(response);
-      console.log(JSON.stringify(allScores));
-      completeConsultantAlgo();
+      const allocatedGroups = completeConsultantAlgo();
+      renderGroups(allocatedGroups, students, topics);
     });
   })
 

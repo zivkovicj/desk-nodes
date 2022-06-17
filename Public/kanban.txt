@@ -17,15 +17,20 @@ Consultants algo:
     Highlight consultant student
 
 Finish student routes
-    Post
-    Put
-    Delete
+  Post
+  Put
+  Delete
 
 Finish topic routes
-    Post
-    Put
-    Delete
+  Post
+  Put
+  Delete
 
 Scoresheet is editable to change the scores
 
 Improve the appearance of the scoresheet
+
+Future To-Dos
+  Don't assign consultants who scored above 90 unless we must
+  Maybe one more pass for consultants who scored 100
+  Allocate students who have scored high in everything
