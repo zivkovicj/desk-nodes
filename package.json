@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon index.js",
     "start": "node index.js"
   },
   "repository": {
@@ -19,6 +20,13 @@
   },
   "homepage": "https://github.com/zivkovicj/desk-nodes#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
   }
 }
