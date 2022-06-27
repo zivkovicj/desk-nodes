@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { pool } = require('./config');
 
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
 const app = express();
 
 const { students, topics, scores } = require('./data.js');
