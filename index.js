@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('Public'));
 
 app.get('/students', (req, res) => {
-  pool.query('SELECT * FROM students', (error, results) => {
+  pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
     if (error) {
       throw error
     }
@@ -30,12 +30,20 @@ app.get('/students', (req, res) => {
   })
 });
 
+app.get('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  pool.query('SELECT * FROM students WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    const this_stud = results.rows[0];
+    res.render('student', {this_stud: this_stud});
+  })
+})
+
 app.post('/students', (req, res) => {
   const { first_name, last_name } = req.body
-  console.log("first_name");
-  console.log(first_name);
-  console.log("last_name");
-  console.log(last_name);
 
   pool.query(
     'INSERT INTO students (first_name, last_name) VALUES ($1, $2)',
@@ -44,10 +52,39 @@ app.post('/students', (req, res) => {
       if (error) {
         throw error
       }
-      res.status(201).json({ status: 'success', message: 'Student added.' })
+      res.redirect('students');
     }
   );
 });
+
+app.post('/students/update', (req, res) => {
+  const id = parseInt(req.body.id);
+  const { first_name, last_name } = req.body
+
+  pool.query(
+    'UPDATE students SET first_name = $1, last_name = $2 WHERE id = $3', [first_name, last_name, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.redirect('../students');
+    }
+  )
+})
+
+app.post('/students/delete', (req, res) => {
+  const id = parseInt(req.body.id);
+
+  pool.query(
+    'DELETE FROM students WHERE id = $1', [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(201).json({ status: 'success', message: `Student deleted where id = ${id}.` });
+    }
+  )
+})
 
 
 app.get('/topics', (req, res) => {

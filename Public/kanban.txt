@@ -8,18 +8,16 @@ Consultants algo:
     ✓In order of topic priority
     ✓Choose enough consultants for each topic to match need / 4
     ✓ Allocate remaining students into those groups
-    Allocate the students more evenly (maybe use groups as the outer loop.  Repeat the process four times.)
+    ✓ Allocate the students more evenly (maybe use groups as the outer loop.  Repeat the process four times.)
   Dry the code that fetches all the data
-  Choose consultants
-  Choose groups
-  Display results
-    Arrange students into clusters of four
-    Highlight consultant student
+  ✓ Display results
+    ✓ Arrange students into clusters of four
+    ✓ Highlight consultant student
 
 Finish student routes
-  Post
-  Put
-  Delete
+  ✓ Post
+  ✓ Put
+  ✓ Delete
 
 Finish topic routes
   Post
@@ -31,6 +29,7 @@ Scoresheet is editable to change the scores
 Improve the appearance of the scoresheet
 
 Future To-Dos
+  Give user an announcement upon adding, updating, or deleting a student
   Don't assign consultants who scored above 90 unless we must
   Maybe one more pass for consultants who scored 100
   Allocate students who have scored high in everything

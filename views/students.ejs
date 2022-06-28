@@ -14,7 +14,7 @@
         /* Set additional styling options for the columns*/
         .column {
             float: left;
-            width: 50%;
+            width: 25%;
         }
 
         .row:after {
@@ -26,13 +26,16 @@
 </head>
 
 <body>
+    <% /* %>
+    <h2><%= confirmation_message %></h2>
+    <% */ %>
     <h1>Students</h1>
 
     <div class="row">
         <div class="column">
             <% group_1.forEach(student=> { %>
                 <p>
-                    <%= student.last_name %>, <%= student.first_name %>
+                    <a href="/students/<%= student.id %>"><%= student.last_name %>, <%= student.first_name %></a>
                 </p>
             <% }) %>
         </div>
@@ -40,7 +43,7 @@
         <div class="column">
             <% group_2.forEach(student=> { %>
                 <p>
-                    <%= student.last_name %>, <%= student.first_name %>
+                    <a href="/students/<%= student.id %>"><%= student.last_name %>, <%= student.first_name %></a>
                 </p>
             <% }) %>
         </div>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>
+        <%= this_stud.first_name %>
+            <%= this_stud.last_name %>
+    </h1>
+
+    <a href="/students">Return to All Students</a>
+    </br></br>
+
+    <form action="/students/update" method="POST">
+        <input hidden type="text" name="id" id="id" value="<%= this_stud.id %>">
+        <label for="first_name">First Name</label>
+        <input type="text" name="first_name" id="first_name" value="<%= this_stud.first_name %>">
+        <label for="title">Last Name</label>
+        <input type="text" name="last_name" id="last_name" value="<%= this_stud.last_name %>">
+        <input type="submit" value="Update this Student">
+    </form>
+
+    </br>
+    <form action="/students/delete" method="POST">
+        <input hidden type="text" name="id" id="id" value="<%= this_stud.id %>">
+        <input type="submit" value="Delete this Student">
+    </form>
+</body>
+
+</html>
