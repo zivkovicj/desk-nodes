@@ -1,5 +1,13 @@
 Roadmap for Desk Nodes
 
+Put a little more work into the appearance of the score table
+
+Scoresheet is editable to change the scores
+
+Organize students, scores, and topics in their own router page.
+
+Re-route upon deleting a student.
+
 ✓ Add more students and topics so that the algo has more to work with
 ✓ Separate Scoresheet Button and Desk Constultants Button
 
@@ -24,7 +32,7 @@ Finish topic routes
   Put
   Delete
 
-Scoresheet is editable to change the scores
+
 
 Improve the appearance of the scoresheet
 

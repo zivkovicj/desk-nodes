@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Scores</h1>
+
+    <table>
+        <thead>
+            <th></th>
+            <% topics.forEach(topic=> { %>
+                <th class="rotated-text" scope="col"><div><span><%= topic.name %></span></div></th>
+            <% }); %>
+        </thead>
+        <tbody>
+            <% students.forEach(student => { %>
+                <tr>
+                    <td class="right"><%= student.last_name %>, <%= student.first_name[0] %></td>
+                    
+                    <% topics.forEach(topic=> { %>
+                        <td class="center">
+                            <% these_points = ''; %>
+                            <% const this_score = scores.find(score => {return score.student_id === student.id && score.topic_id === topic.id}) %>
+                            <% if (this_score) { these_points = this_score.points} %>
+                            <%= these_points %>
+                        </td>
+                    <% }); %>
+                </tr>
+            <% }) %>
+        </tbody>
+
+
+    </table>
+
+    <%= JSON.stringify(scores) %>
+        </br>
+        </br>
+        <%= JSON.stringify(students) %>
+            </br>
+            </br>
+            <%= JSON.stringify(topics) %>
+</body>
+
+</html>

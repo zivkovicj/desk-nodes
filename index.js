@@ -93,9 +93,32 @@ app.get('/topics', (req, res) => {
 });
 
 app.get('/scores', (req, res) => {
-  console.log("Getting scores in server");
-  res.status(200).send(scores);
+  let scores = [];
+  let students = [];
+  let topics = [];
+
+  pool.query('SELECT * FROM scores ORDER BY student_id', (err, results1) => {
+    if (err) throw err;
+
+    const parsed_scores = JSON.parse(JSON.stringify(results1.rows));
+
+    pool.query('SELECT * FROM students', (err, results2) => {
+      if (err) throw err;
+
+      students = results2.rows;
+
+      pool.query('SELECT * FROM topics', (err, results3) => {
+        if (err) throw err;
+
+        topics = results3.rows;
+
+        res.render('scores', { students: students, topics: topics, scores: parsed_scores });
+      })
+   
+    });
+  });
 });
+
 
 // Start the server
 const PORT = process.env.PORT || 8080;

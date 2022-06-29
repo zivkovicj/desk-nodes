@@ -3,8 +3,9 @@ body{
 }
 
 td {
-    text-align: center;
+    
 }
+
 #fetch-button-1{
     color: rgb(245, 240, 240);
     cursor: pointer;
@@ -25,4 +26,37 @@ td {
 
 .oneTable {
     border-style: solid;
+}
+
+h1 {
+    color: red;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th.rotated-text {
+    height: 140px;
+    white-space: nowrap;
+    padding: 0 !important;
+}
+
+th.rotated-text > div {
+    transform:
+        translate(13px, 0px)
+        rotate(270deg);
+    width: 30px;
+}
+
+th.rotated-text > div > span {
+    padding: 5px 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
 }
