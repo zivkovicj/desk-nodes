@@ -1,12 +1,10 @@
-body{
+body {
     background-color: white;
 }
 
-td {
-    
-}
+td {}
 
-#fetch-button-1{
+#fetch-button-1 {
     color: rgb(245, 240, 240);
     cursor: pointer;
     display: inline-block;
@@ -19,9 +17,10 @@ td {
 }
 
 #fetch-button-1:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     color: white;
-  }
+}
 
 
 .oneTable {
@@ -32,9 +31,50 @@ h1 {
     color: red;
 }
 
-table, th, td {
-    border: 1px solid black;
+.student-cell {
+    background-color: #36c;
+    color: #fff;
+    text-align: left;
 }
+
+.score-cell {}
+
+.score-input {
+    width: 25px;
+    text-align: center;
+
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th {
+    border: 1px solid black;
+    padding: 0px;
+}
+
+thead th {
+    width: 10%;
+}
+
+thead {
+	background-color: #333;
+	color: white;
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 2%;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #eee;
+  }
+
+  
 
 th.rotated-text {
     height: 140px;
@@ -42,15 +82,19 @@ th.rotated-text {
     padding: 0 !important;
 }
 
-th.rotated-text > div {
+th.rotated-text>div {
     transform:
-        translate(13px, 0px)
+        /* translate(13px, 0px) */
         rotate(270deg);
     width: 30px;
 }
 
-th.rotated-text > div > span {
-    padding: 5px 10px;
+th.rotated-text>div>span {
+    /* padding: 5px 10px; */
+}
+
+.left {
+    text-align: left;
 }
 
 .center {

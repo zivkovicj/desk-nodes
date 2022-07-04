@@ -5,47 +5,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Document</title>
 </head>
 
 <body>
     <h1>Scores</h1>
 
-    <table>
-        <thead>
-            <th></th>
-            <% topics.forEach(topic=> { %>
-                <th class="rotated-text" scope="col"><div><span><%= topic.name %></span></div></th>
-            <% }); %>
-        </thead>
-        <tbody>
-            <% students.forEach(student => { %>
-                <tr>
-                    <td class="right"><%= student.last_name %>, <%= student.first_name[0] %></td>
-                    
-                    <% topics.forEach(topic=> { %>
-                        <td class="center">
-                            <% these_points = ''; %>
-                            <% const this_score = scores.find(score => {return score.student_id === student.id && score.topic_id === topic.id}) %>
-                            <% if (this_score) { these_points = this_score.points} %>
-                            <%= these_points %>
+    <form action="/scores/update" method="POST">
+                
+        <input type="submit" value="Update Scores">
+        <table>
+            <thead>
+                <th></th>
+                <% topics.forEach(topic=> { %>
+                    <th class="" scope="col">
+                        <div><span>
+                            <%= topic.name %>
+                        </span></div>
+                    </th>
+                <% }); %>
+            </thead>
+            <tbody>
+                <% students.forEach((student, i) => { %>
+                    <tr>
+                        <td class="student-cell right">
+                            <%= student.last_name %>, <%= student.first_name[0] %>, <%= student.id %>
                         </td>
-                    <% }); %>
-                </tr>
-            <% }) %>
-        </tbody>
+
+                        <% topics.forEach(topic=> { %>
+                            <td class="score-cell center">
+                                <% these_points='' ; %>
+                                <% const this_score=scores.find(score=> {return score.student_id === student.id && score.topic_id === topic.id}) %>
+                                <% if (this_score) { these_points=this_score.points} %>
+                                    
+                                <input class="score-input" type="text" name="score_<%= student.id %>_<%= topic.id %>" id="score[<%= student.id %>][<%= topic.id %>]" value="<%= these_points %>">
+                                
+                            </td>
+                        <% }); %>
+                    </tr>
+                    <% }) %>
+            </tbody>
 
 
-    </table>
+        </table>
+        <input type="submit" value="Update Scores">
+    </form>
 
-    <%= JSON.stringify(scores) %>
-        </br>
-        </br>
-        <%= JSON.stringify(students) %>
+    <p><%= scores.length %> Scores</p>
+    <p><%= students.length %> Students</p>
+
+    
+        <%= JSON.stringify(scores) %>
             </br>
             </br>
-            <%= JSON.stringify(topics) %>
+            <%= JSON.stringify(students) %>
+                </br>
+                </br>
+                <%= JSON.stringify(topics) %>
 </body>
 
 </html>

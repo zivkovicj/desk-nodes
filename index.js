@@ -16,6 +16,11 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('Public'));
 
+app.get('/desk-consultants'), (req, res) => {
+  console.log("Mike dug at me");
+  res.render('desk-consultants');
+}
+
 app.get('/students', (req, res) => {
   pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
     if (error) {
@@ -38,7 +43,7 @@ app.get('/students/:id', (req, res) => {
     }
 
     const this_stud = results.rows[0];
-    res.render('student', {this_stud: this_stud});
+    res.render('student', { this_stud: this_stud });
   })
 })
 
@@ -93,16 +98,15 @@ app.get('/topics', (req, res) => {
 });
 
 app.get('/scores', (req, res) => {
-  let scores = [];
   let students = [];
   let topics = [];
 
-  pool.query('SELECT * FROM scores ORDER BY student_id', (err, results1) => {
+  pool.query('SELECT * FROM scores', (err, results1) => {
     if (err) throw err;
 
-    const parsed_scores = JSON.parse(JSON.stringify(results1.rows));
+    let parsed_scores = JSON.parse(JSON.stringify(results1.rows));
 
-    pool.query('SELECT * FROM students', (err, results2) => {
+    pool.query('SELECT * FROM students ORDER BY last_name', (err, results2) => {
       if (err) throw err;
 
       students = results2.rows;
@@ -114,10 +118,30 @@ app.get('/scores', (req, res) => {
 
         res.render('scores', { students: students, topics: topics, scores: parsed_scores });
       })
-   
+
     });
   });
 });
+
+app.post('/scores/update', (req, res) => {
+  const these_scores = req.body;
+
+  Object.keys(these_scores).forEach(key => {
+    const split_key = key.split('_');
+    const studentId = parseInt(split_key[1]);
+    const topicId = parseInt(split_key[2]);
+    const points = parseInt(these_scores[key]);
+
+    if (points) {
+      pool.query(
+        'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
+        [studentId, topicId, points],
+        (err, results) => { if (err) throw err;}
+      );
+    }
+  });
+  res.redirect('back');
+})
 
 
 // Start the server

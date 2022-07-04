@@ -1,8 +1,18 @@
 Roadmap for Desk Nodes
 
-Put a little more work into the appearance of the score table
+✓ Put a little more work into the appearance of the score table
 
-Scoresheet is editable to change the scores
+✓ Scoresheet is editable to change the scores
+
+Connect desk-consultants page to database scores instead of fake scores.
+
+Improve appearance of landing page.
+
+Make sure that all landing page links connect correctly.
+
+Main portfolio page that links to this and other projects.
+
+Attendance-marking page before DC results.
 
 Organize students, scores, and topics in their own router page.
 
@@ -41,3 +51,5 @@ Future To-Dos
   Don't assign consultants who scored above 90 unless we must
   Maybe one more pass for consultants who scored 100
   Allocate students who have scored high in everything
+
+
