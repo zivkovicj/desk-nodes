@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Desk Consultants</h1>
+
+    <% groups.forEach(group => { %>
+        <div class="oneTable">
+            <table>
+                <% const topicName = topics.find(topic => topic.id === group[0]).name %>
+                <% const firstPair = [group[2][0],group[2][1]]; %>
+                <% const secondPair = [group[2][2],group[2][3]]; %>
+                <% const makeRow = (pair) => { %>
+                    <% pair.forEach(student_id => { %>
+                        <% if (student_id) { %>
+                            <% const this_student = students.find(student => { return student.id === student_id}) %>
+                            <td>
+                                <%= this_student.first_name %> <%= this_student.last_name[0] %>
+                            </td>
+                        <% } %>
+                        
+                    <% }) %>
+                <% } %>
+                <tr><% makeRow(firstPair) %></tr>
+                <thead><th class="topicNameCell">
+                    <%= topicName %>
+                </th></thead>
+                <tr><% makeRow(secondPair) %></tr>
+                
+            </table>
+        </div>
+    <% }) %>
+    
+</body>
+</html>

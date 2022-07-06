@@ -10,6 +10,16 @@ Improve appearance of landing page.
 
 Make sure that all landing page links connect correctly.
 
+Delete the extra data from the bottom of the pages
+
+Highlight the consultant in the group
+
+Clear out groups that only ended up with one student
+
+Place students who weren't placed yet
+
+Bug: Can't set scores to 0 or blank (Because it requires an integer)
+
 Main portfolio page that links to this and other projects.
 
 Attendance-marking page before DC results.

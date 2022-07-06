@@ -9,6 +9,10 @@ const app = express();
 
 const { students, topics, scores } = require('./data.js');
 
+const consultantsAlgo = require('./consult-algo.js');
+
+const testaroo = require('./testaroo.js');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -16,10 +20,31 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('Public'));
 
-app.get('/desk-consultants'), (req, res) => {
-  console.log("Mike dug at me");
-  res.render('desk-consultants');
-}
+app.get('/desk-consultants', (req, res) => {
+  
+  pool.query('SELECT * FROM scores', (err, results1) => {
+    if (err) throw err;
+
+    let scores = results1.rows;
+
+    pool.query('SELECT * FROM students ORDER BY last_name', (err, results2) => {
+      if (err) throw err;
+
+      let students = results2.rows;
+
+      pool.query('SELECT * FROM topics', (err, results3) => {
+        if (err) throw err;
+
+        let topics = results3.rows;
+
+        const groups = consultantsAlgo(students, topics, scores);
+
+        res.render('desk-consultants', {students: students, topics: topics, scores: scores, groups: groups});
+
+      })
+    });
+  });
+});
 
 app.get('/students', (req, res) => {
   pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
@@ -136,7 +161,7 @@ app.post('/scores/update', (req, res) => {
       pool.query(
         'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
         [studentId, topicId, points],
-        (err, results) => { if (err) throw err;}
+        (err, results) => { if (err) throw err; }
       );
     }
   });
