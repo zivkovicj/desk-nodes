@@ -9,48 +9,46 @@
 </head>
 <body>
     <h1>Desk Consultants</h1>
-    <table>
-
+    
         <% groups.forEach(row => { %>
-            <tr>
+            <div class="dc-row">
                 <% row.forEach(group => { %>
-                    <td>
-                        <table>
-                            <% const topicName = topics.find(topic => topic.id === group[0]).name %>
-                            
-                            <% const student_cell = (studId, markIfConsultant) => { %>
-                                <% const this_student = students.find(student => { return student.id === studId}) %>
-                                <% let this_class="student-cell" %>
-                                <% if (markIfConsultant && group[1]) {this_class = "consultant-cell"} %>
-                                <td class="<%= this_class %>">
-                                    <% if (this_student) { %>
-                                        <%= this_student.first_name %> <%= this_student.last_name[0] %>
-                                    <% } %>
-                                </td>
-                            <% } %>
-
-                            <tr>
-                                <% student_cell(group[2][0], true) %>
-                                <% student_cell(group[2][1]) %>
-                            </tr>
-                            <tr><th class="topicNameCell" colspan="2">
-                                <%= topicName %>
-                            </th></tr>
-                            <tr>
-                                <% student_cell(group[2][2]) %>
-                                <% student_cell(group[2][3]) %>
-                            </tr>
-                            
-                        </table>
-                    </td>
-                    <td>&emsp;</td>
+                    
+                    <table>
+                        <% const topicName = topics.find(topic => topic.id === group[0]).name %>
                         
+                        <% const student_cell = (studId, markIfConsultant) => { %>
+                            <% const this_student = students.find(student => { return student.id === studId}) %>
+                            <% let this_class="student-cell" %>
+                            <% if (markIfConsultant && group[1]) {this_class = "consultant-cell"} %>
+                            <td class="<%= this_class %>">
+                                <% if (this_student) { %>
+                                    <%= this_student.first_name %> <%= this_student.last_name[0] %>
+                                <% } %>
+                            </td>
+                        <% } %>
+
+                        <tr>
+                            <% student_cell(group[2][0], true) %>
+                            <% student_cell(group[2][1]) %>
+                        </tr>
+                        <tr><th class="topic-cell" colspan="2">
+                            <%= topicName %>
+                        </th></tr>
+                        <tr>
+                            <% student_cell(group[2][2]) %>
+                            <% student_cell(group[2][3]) %>
+                        </tr>
+                        
+                    </table>
                     
                 <% }) %>
-            </tr>
-            <tr><td>&emsp;</td></tr>
+            </div>
+        </br>
+        </br>
+            
         <% }) %>
-    </table>    
+    
     
 </body>
 

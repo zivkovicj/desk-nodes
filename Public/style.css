@@ -34,17 +34,31 @@ h1 {
     
 }
 
+.dc-row {
+    display: flex;
+    justify-content: space-around;
+}
+
 .student-cell {
     background-color: white;
     color: black;
     text-align: left;
-    width: 100px;
+    width: 150px;
+    font-size: 20px;
+    text-align: center;
 }
 
 .consultant-cell {
     background-color: #36c;
     color: white;
-    width: 100px;
+    width: 150px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.topic-cell {
+    background-color: lightseagreen;
+    font-size: 20px;
 }
 
 .score-cell {}
@@ -78,11 +92,11 @@ thead {
 
 tbody tr:nth-child(odd) {
     background-color: #fff;
-  }
+}
   
-  tbody tr:nth-child(even) {
+tbody tr:nth-child(even) {
     background-color: #eee;
-  }
+}
 
   
 

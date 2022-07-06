@@ -2,9 +2,8 @@ Roadmap for Desk Nodes
 
 
 
-Highlight the consultant in the group
+Check that heroku db is caught up
 
-Separate groups
 
 Clear out groups that only ended up with one student
 
