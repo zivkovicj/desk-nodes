@@ -38,6 +38,7 @@ app.get('/desk-consultants', (req, res) => {
         let topics = results3.rows;
 
         const groups = consultantsAlgo(students, topics, scores);
+        
 
         res.render('desk-consultants', {students: students, topics: topics, scores: scores, groups: groups});
 

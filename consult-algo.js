@@ -31,13 +31,13 @@ module.exports = (students, topics, scores) => {
       const potentialConsultants = scores.filter(score => {
         return (score.topic_id === topicId) && (score.points !== null) && (score.points >= 70) && !(consultantsAssigned.includes(score.student_id));
       })
-      
-      for (let j = 0; j < potentialConsultants.length; j++){
+
+      for (let j = 0; j < potentialConsultants.length; j++) {
         const consultant = potentialConsultants[j];
         groups.push([topicId, true, [consultant.student_id]]);            // The second element is a binary to indicate whether the first student in this groups is a consultant.  
         consultantsAssigned.push(consultant.studentId);
         consultantsForThisTopic++;
-        if (consultantsForThisTopic > consultantsNeeded) {break;};        // Stop looking if this topic already has enough consultants assigned.
+        if (consultantsForThisTopic > consultantsNeeded) { break; };        // Stop looking if this topic already has enough consultants assigned.
         if (groups.length >= oneFourthOfClass) { break; };                // Stop looking if the class has enough total consultants assigned.
       };
       if (groups.length >= oneFourthOfClass) { break; };                  // Stop looking if the class has enough total consultants assigned.  We do this in the inner loop and the outer loop for the corner cases where one passes and the other doesn't.
@@ -52,9 +52,9 @@ module.exports = (students, topics, scores) => {
       alreadyAllocated.push(group[2][0]);          // Mark the consultants as already allocated.
     })
 
-    for (let n = 0; n < 4; n++){
+    for (let n = 0; n < 4; n++) {
       for (let i = 0; i < groups.length; i++) {
-        const thisGroup = groups[i];  
+        const thisGroup = groups[i];
         const topic = thisGroup[0];
         const newStudent = scores.find(score => {
           return (score.topic_id === topic) && (score.points === null) && (score.points <= 70) && !(alreadyAllocated.includes(score.student_id))
@@ -68,21 +68,32 @@ module.exports = (students, topics, scores) => {
     return groups;
   }
 
+  const chunkGroups = (allocatedGroups) => {
+    const chunkedGroups = [], size = 3;
+    while (allocatedGroups.length > 0) {
+      chunkedGroups.push(allocatedGroups.splice(0, size));
+    }
+
+    return chunkedGroups;
+  }
+
   const consultantsNeeded = findStudentsNeeding();
-  console.log("consultantsNeeded");
-  console.log(consultantsNeeded);
+  //console.log("consultantsNeeded");
+  //console.log(consultantsNeeded);
 
   const topicsByConsultantsNeeded = sortThenIndex(consultantsNeeded);
-  console.log("topicsByConsultantsNeeded");
-  console.log(topicsByConsultantsNeeded);
+  //console.log("topicsByConsultantsNeeded");
+  //console.log(topicsByConsultantsNeeded);
 
   const initialGroups = chooseInitialGroups(topicsByConsultantsNeeded, consultantsNeeded);
-  console.log("initialGroups");
-  console.log(initialGroups);
+  //console.log("initialGroups");
+  //console.log(initialGroups);
 
   const allocatedGroups = allocateStudents(initialGroups);
-  console.log("allocatedgroups");
-  console.log(allocatedGroups);
+  //console.log("allocatedgroups");
+  //console.log(allocatedGroups);
 
-  return allocatedGroups;
+  const groupsIn3 = chunkGroups(allocatedGroups)
+
+  return groupsIn3;
 };
