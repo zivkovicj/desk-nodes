@@ -51,18 +51,29 @@ module.exports = (students, topics, scores) => {
     groups.forEach(group => {
       alreadyAllocated.push(group[2][0]);          // Mark the consultants as already allocated.
     })
+    console.log("alreadyAllocated");
+    console.log(alreadyAllocated);
 
     for (let n = 0; n < 4; n++) {
+      console.log("");
+      console.log("n "+n);
       for (let i = 0; i < groups.length; i++) {
+        console.log("i "+i);
         const thisGroup = groups[i];
         const topic = thisGroup[0];
+        console.log("thisGroup "+thisGroup);
+        console.log("topic "+topic);
         const newStudent = scores.find(score => {
           return (score.topic_id === topic) && (score.points === null) && (score.points <= 70) && !(alreadyAllocated.includes(score.student_id))
         })
+        console.log("newStudent "+newStudent);
         if (newStudent) {
           thisGroup[2].push(newStudent.student_id);
           alreadyAllocated.push(newStudent.student_id);
+          console.log("thisGroup after pushing newStudent "+thisGroup);
+          console.log("alreadyAllocated after pushing newStudent "+alreadyAllocated);
         }
+        
       }
     }
     return groups;
