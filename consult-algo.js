@@ -97,5 +97,5 @@ module.exports = (students, topics, scores) => {
 
   const groupsIn3 = chunkGroups(allocatedGroups)
 
-  return [consultantsNeeded, topicsByConsultantsNeeded, initialGroups, allocatedGroups, groupsIn3];
+  return groupsIn3;
 };
