@@ -61,17 +61,18 @@ module.exports = (students, topics, scores) => {
         console.log("i "+i);
         const thisGroup = groups[i];
         const topic = thisGroup[0];
-        console.log("thisGroup "+thisGroup);
-        console.log("topic "+topic);
         const newStudent = scores.find(score => {
+          console.log("scpre.topic_id "+score.topic_id);
+          console.log("topic "+topic);
+          console.log("score.points "+score.points);
+          console.log("score.student_id "+score.student_id);
+
           return (score.topic_id === topic) && (score.points === null) && (score.points <= 70) && !(alreadyAllocated.includes(score.student_id))
         })
         console.log("newStudent "+newStudent);
         if (newStudent) {
           thisGroup[2].push(newStudent.student_id);
           alreadyAllocated.push(newStudent.student_id);
-          console.log("thisGroup after pushing newStudent "+thisGroup);
-          console.log("alreadyAllocated after pushing newStudent "+alreadyAllocated);
         }
         
       }
