@@ -1,8 +1,6 @@
 Roadmap for Desk Nodes
 
 
-Figure out why heroku isn't allocating students
-
 Create appropriate scores upon creating a student
 
 Clear out groups that only ended up with one student

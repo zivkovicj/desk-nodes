@@ -77,13 +77,29 @@ app.post('/students', (req, res) => {
   const { first_name, last_name } = req.body
 
   pool.query(
-    'INSERT INTO students (first_name, last_name) VALUES ($1, $2)',
+    'INSERT INTO students (first_name, last_name) VALUES ($1, $2) RETURNING id;',
     [first_name, last_name],
-    (error) => {
+    (error, results) => {
       if (error) {
         throw error
       }
-      res.redirect('students');
+      const newest_id = results.rows[0].id;
+
+      pool.query('SELECT * FROM topics', (err, results) => {
+        if (err) throw err;
+        const topics = results.rows;
+        
+        topics.forEach(topic => {
+          pool.query('INSERT INTO scores (student_id, topic_id) VALUES ($1, $2)',
+          [newest_id, topic.id],
+          (err, results) => {
+            if (err) throw err;
+            console.log(results.rows);
+          })
+        });
+        res.redirect('students');
+      });
+      
     }
   );
 });
