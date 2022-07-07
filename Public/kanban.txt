@@ -1,9 +1,9 @@
 Roadmap for Desk Nodes
 
 
+Figure out why heroku isn't allocating students
 
-Check that heroku db is caught up
-
+Create appropriate scores upon creating a student
 
 Clear out groups that only ended up with one student
 
@@ -34,6 +34,7 @@ Finish topic routes
   Post
   Put
   Delete
+  Create scores upon creating a topic
 
 ✓ Add more students and topics so that the algo has more to work with
 ✓ Separate Scoresheet Button and Desk Constultants Button
