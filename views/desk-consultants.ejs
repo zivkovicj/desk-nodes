@@ -9,8 +9,13 @@
 </head>
 <body>
     <h1>Desk Consultants</h1>
-    
-        <% groups.forEach(row => { %>
+        <% const consultantsNeeded = groups[0] %>
+        <% const topicsByConsultantsNeeded = groups[1] %>
+        <% const initialGroups = groups[2] %>
+        <% const allocatedGroups = groups[3] %>
+        <% const groupsIn3 = groups[4] %>
+
+        <% groupsIn3.forEach(row => { %>
             <div class="dc-row">
                 <% row.forEach(group => { %>
                     
@@ -48,6 +53,13 @@
         </br>
             
         <% }) %>
+
+        
+        <%= consultantsNeeded  %></br></br>
+        <%= topicsByConsultantsNeeded  %></br></br>
+        <%= initialGroups %></br></br>
+        <%= allocatedGroups  %></br></br>
+        <%= groupsIn3 %>
     
     
 </body>
