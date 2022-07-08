@@ -1,17 +1,15 @@
-Roadmap for Desk Nodes
 
 ***********************************
 BEFORE I BEGIN APPLYING FOR JOBS
 ***********************************
 
-Include all new scores when re-loading page
 
-Link to homepage from
-  scores
-  DC
-  students view
 
-Place students whose scores were too high to place them.
+Link scoresheet and DC to each other, so people can quickly test the results.
+
+Check heroku for whether the scoresheet problem still exists where not all scores appear upon refresh.
+
+
 
 Ask if anybody is willing to swap code reviews
 
@@ -25,7 +23,7 @@ Make a ranked list of several good candidates.  Include LinkedIn and Indeed.  Re
 NEAR FUTURE
 ***********************************
 
-
+Establish a way to reset the database
 
 Authentication
 
@@ -38,11 +36,15 @@ Organize students, scores, and topics in their own router page.
 
 Re-route upon deleting a student
 
+Don't allow scores below 0 or over 100
+
 Finish topic routes
   Post
   Put
   Delete
   Create scores upon creating a topic
+
+Implement tests
 
 
 ***********************************
@@ -54,8 +56,14 @@ FAR FUTURE
   Maybe one more pass for consultants who scored 100
   Allocate students who have scored high in everything
 
+  If this ever gets used in a classroom again, make sure to implement a system to keep track of which students need a turn to be consultant.
 
 
+***********************************
+ALREADY ACCOMPLISHED
+***********************************
+
+✓ Place students whose scores were too high to place them.
 ✓ Add more students and topics so that the algo has more to work with
 ✓ Separate Scoresheet Button and Desk Constultants Button
 
@@ -82,6 +90,11 @@ Finish student routes
 ✓ Connect desk-consultants page to database scores instead of fake scores.
 
 ✓  Bug: Can't set scores to 0 or blank (Because it requires an integer)
+
+✓ Link to homepage from
+  ✓ scores
+  ✓ DC
+  ✓ students view
 
 
 

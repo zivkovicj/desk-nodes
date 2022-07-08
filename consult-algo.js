@@ -1,10 +1,5 @@
 module.exports = (students, topics, scores) => {
 
-  // Transpose a matrix (used for scores) so that the rows are arranged by topic instead of student.
-  function transpose(matrix) {
-    return matrix[0].map((col, i) => matrix.map(row => row[i]));
-  }
-
   const findStudentsNeeding = () => {
     return topics.map(topic => {
       const scoresForThisTopic = scores.filter(score => {
@@ -14,13 +9,12 @@ module.exports = (students, topics, scores) => {
     });
   }
 
-  const sortThenIndex = (arr) => {
+  const sortByNeed = (arr) => {
     return arr.slice().sort((a, b) => b[0] - a[0]);
   }
 
-  const chooseInitialGroups = (topicsByConsultantsNeeded, consultantsNeeded) => {
-    let consultantsAssigned = [];                              // Holding the list of assigned students just for this function to prevent students from being double-booked
-    const oneFourthOfClass = Math.ceil(students.length / 4);     // Find one-fourth of the class.
+  const chooseInitialGroups = (topicsByConsultantsNeeded, consultantsNeeded) => {     
+    const oneFourthOfClass = Math.ceil(students.length / 4);
     const groups = [];
 
     for (let i = 0; i < topicsByConsultantsNeeded.length; i++) {    // Using a for loop instead of forEach so that I'm allowed to break;
@@ -29,13 +23,13 @@ module.exports = (students, topics, scores) => {
       const topicId = topic[1];
       let consultantsForThisTopic = 0;
       const potentialConsultants = scores.filter(score => {
-        return (score.topic_id === topicId) && (score.points !== null) && (score.points >= 70) && !(consultantsAssigned.includes(score.student_id));
+        return (score.topic_id === topicId) && (score.points !== null) && (score.points >= 70) && (needsPlacement.includes(score.student_id));
       })
 
       for (let j = 0; j < potentialConsultants.length; j++) {
         const consultant = potentialConsultants[j];
-        groups.push([topicId, true, [consultant.student_id]]);            // The second element is a binary to indicate whether the first student in this groups is a consultant.  
-        consultantsAssigned.push(consultant.studentId);
+        groups.push([topicId, true, [consultant.student_id]]);           // The second element is a binary to indicate whether the first student in this groups is a consultant. 
+        removeFromArray(needsPlacement, consultant.student_id);         
         consultantsForThisTopic++;
         if (consultantsForThisTopic > consultantsNeeded) { break; };        // Stop looking if this topic already has enough consultants assigned.
         if (groups.length >= oneFourthOfClass) { break; };                // Stop looking if the class has enough total consultants assigned.
@@ -47,43 +41,84 @@ module.exports = (students, topics, scores) => {
   }
 
   const allocateStudents = (groups) => {
-    const alreadyAllocated = [];
-    groups.forEach(group => {
-      alreadyAllocated.push(group[2][0]);          // Mark the consultants as already allocated.
-    })
-    console.log("alreadyAllocated");
-    console.log(alreadyAllocated);
-
     for (let n = 0; n < 4; n++) {
       for (let i = 0; i < groups.length; i++) {
         const thisGroup = groups[i];
         const topic = thisGroup[0];
-         const newStudent = scores.find(score => {
-          return (score.topic_id === topic) && ((score.points === null) || (score.points <= 70)) && !(alreadyAllocated.includes(score.student_id))
+         const newStudScore = scores.find(score => {
+          return (score.topic_id === topic) && ((score.points === null) || (score.points <= 70)) && (needsPlacement.includes(score.student_id))
         });
-        if (newStudent) {
-          thisGroup[2].push(newStudent.student_id);
-          alreadyAllocated.push(newStudent.student_id);
+        if (newStudScore) {
+          thisGroup[2].push(newStudScore.student_id);
+          removeFromArray(needsPlacement, newStudScore.student_id);
         }
       }
     }
     return groups;
   }
 
-  const chunkGroups = (allocatedGroups) => {
+  const assignSolitaryStudents = (allocatedGroups) => {
+    for (var i = needsPlacement.length -1; i >= 0; i--) {
+      
+      const thisStudent = needsPlacement[i];
+      let placed = false;
+
+      // First, we check whether the solitary student can be placed into an existing group.
+      // This step also increases the placement threshold to 90, so it might place some students who scored between 70 and 90, so they weren't placed on the first pass.
+      // Some solitary students might be able to join the group started by the first solitary student.
+      for (var j = 0; j < allocatedGroups.length; j++) {
+
+        const thisGroup = allocatedGroups[j]; 
+
+        if (thisGroup[2].length < 4) {
+
+          const thisScore = scores.find(score => { return score.student_id === thisStudent && score.topic_id === thisGroup[0]});
+
+          if (thisScore.points < 90 || thisScore.points == null) {    // Not equal to 90.
+            thisGroup[2].push(thisStudent);
+            removeFromArray(needsPlacement, thisStudent);
+            placed = true;
+          };
+        };
+
+      };
+
+      // If still unplaced, create a new group with a new topic.
+      if (!placed) {
+        const newTopicScore = scores.find(score => {return score.student_id === thisStudent && (score.points === null || score.points <= 70)}); 
+        if (newTopicScore) {
+          const newGroup = [newTopicScore.topic_id, false, [thisStudent]];
+          allocatedGroups.push(newGroup);
+        }
+      };
+    };
+
+    return allocatedGroups
+  }
+
+  const chunkGroups = (finalGroups) => {
     const chunkedGroups = [], size = 3;
-    while (allocatedGroups.length > 0) {
-      chunkedGroups.push(allocatedGroups.splice(0, size));
+    while (finalGroups.length > 0) {
+      chunkedGroups.push(finalGroups.splice(0, size));
     }
 
     return chunkedGroups;
   }
 
+  const removeFromArray = (arr, elem) => {
+    const idx = arr.indexOf(elem);
+    if (idx > -1) { // only splice array when item is found
+      arr.splice(idx, 1); // 2nd parameter means remove one item only
+    }
+  }
+
+  const needsPlacement = students.map(student => {return student.id});
+
   const consultantsNeeded = findStudentsNeeding();
   //console.log("consultantsNeeded");
   //console.log(consultantsNeeded);
 
-  const topicsByConsultantsNeeded = sortThenIndex(consultantsNeeded);
+  const topicsByConsultantsNeeded = sortByNeed(consultantsNeeded);
   //console.log("topicsByConsultantsNeeded");
   //console.log(topicsByConsultantsNeeded);
 
@@ -95,7 +130,9 @@ module.exports = (students, topics, scores) => {
   //console.log("allocatedgroups");
   //console.log(allocatedGroups);
 
-  const groupsIn3 = chunkGroups(allocatedGroups)
+  const finalGroups = assignSolitaryStudents(allocatedGroups);
+
+  const groupsIn3 = chunkGroups(finalGroups)
 
   return groupsIn3;
 };

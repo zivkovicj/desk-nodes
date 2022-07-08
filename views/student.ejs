@@ -14,7 +14,11 @@
         <%= this_stud.last_name %>
     </h1>
 
-    <a href="/students">Return to All Students</a>
+    <div>
+        <a href="/students"><button>Return to All Students</button></a>
+        <%- include('partials/home_link.html') %>
+    </div>
+
     </br></br>
 
     <form action="/students/update" method="POST">
