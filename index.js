@@ -94,7 +94,6 @@ app.post('/students', (req, res) => {
           [newest_id, topic.id],
           (err, results) => {
             if (err) throw err;
-            console.log(results.rows);
           })
         });
         res.redirect('students');
@@ -172,15 +171,18 @@ app.post('/scores/update', (req, res) => {
     const split_key = key.split('_');
     const studentId = parseInt(split_key[1]);
     const topicId = parseInt(split_key[2]);
-    const points = parseInt(these_scores[key]);
-
-    if (points) {
-      pool.query(
-        'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
-        [studentId, topicId, points],
-        (err, results) => { if (err) throw err; }
-      );
+    let points;
+    if (these_scores[key]) {
+      points = these_scores[key]; 
+    } else {
+      points = null;
     }
+  
+    pool.query(
+      'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
+      [studentId, topicId, points],
+      (err, results) => { if (err) throw err }
+    );
   });
   res.redirect('back');
 })

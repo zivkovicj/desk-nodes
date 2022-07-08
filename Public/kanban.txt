@@ -1,38 +1,60 @@
 Roadmap for Desk Nodes
 
+***********************************
+BEFORE I BEGIN APPLYING FOR JOBS
+***********************************
 
-Create appropriate scores upon creating a student
-
-Clear out groups that only ended up with one student
-
-Place students who weren't placed yet
-
-Bug: Can't set scores to 0 or blank (Because it requires an integer)
-
-Improve appearance of DC page.  Link to CSS.
+Include all new scores when re-loading page
 
 Link to homepage from
   scores
   DC
   students view
 
+Place students whose scores were too high to place them.
+
+Ask if anybody is willing to swap code reviews
+
 Main portfolio page that links to this and other projects.
+  Iron Maiden front-end
+
+Make a ranked list of several good candidates.  Include LinkedIn and Indeed.  Re-watch the video that included other tips.
+
+
+***********************************
+NEAR FUTURE
+***********************************
+
+
+
+Authentication
+
+Clear out groups that only ended up with one student, then re-assign them.
+Notes about why some students ended up with the new topic.
 
 Attendance-marking page before DC results.
-
-Finish updating student names so that they're all people
 
 Organize students, scores, and topics in their own router page.
 
 Re-route upon deleting a student
-
-Authentication
 
 Finish topic routes
   Post
   Put
   Delete
   Create scores upon creating a topic
+
+
+***********************************
+FAR FUTURE
+***********************************
+
+  Give user an announcement upon adding, updating, or deleting a student
+  Don't assign consultants who scored above 90 unless we must
+  Maybe one more pass for consultants who scored 100
+  Allocate students who have scored high in everything
+
+
 
 ✓ Add more students and topics so that the algo has more to work with
 ✓ Separate Scoresheet Button and Desk Constultants Button
@@ -59,14 +81,10 @@ Finish student routes
 
 ✓ Connect desk-consultants page to database scores instead of fake scores.
 
+✓  Bug: Can't set scores to 0 or blank (Because it requires an integer)
 
 
 
 
-Future To-Dos
-  Give user an announcement upon adding, updating, or deleting a student
-  Don't assign consultants who scored above 90 unless we must
-  Maybe one more pass for consultants who scored 100
-  Allocate students who have scored high in everything
 
 
