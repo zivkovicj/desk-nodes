@@ -3,18 +3,12 @@
 BEFORE I BEGIN APPLYING FOR JOBS
 ***********************************
 
-
-
-Link scoresheet and DC to each other, so people can quickly test the results.
-
-Check heroku for whether the scoresheet problem still exists where not all scores appear upon refresh.
-
-
-
-Ask if anybody is willing to swap code reviews
-
 Main portfolio page that links to this and other projects.
   Iron Maiden front-end
+
+Link from MrZSchool back to portfolio
+
+Ask if anybody is willing to swap code reviews
 
 Make a ranked list of several good candidates.  Include LinkedIn and Indeed.  Re-watch the video that included other tips.
 
@@ -24,6 +18,10 @@ NEAR FUTURE
 ***********************************
 
 Establish a way to reset the database
+
+I think that I may have fixed the problem where many scores don't show up when the user relods the scoresheet.  But pay attention to whether it acutally fixed.
+Consider looking again at some async and await articles for a more efficient way to do this.  Or asking on StackOverflow.
+https://zellwk.com/blog/async-await-express/
 
 Authentication
 

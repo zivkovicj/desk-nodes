@@ -164,7 +164,16 @@ app.get('/scores', (req, res) => {
   });
 });
 
-app.post('/scores/update', (req, res) => {
+const updateSingleScore = async(studentId, topicId, points) => {
+  const dummy = await pool.query(
+    'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
+    [studentId, topicId, points],
+    (err, results) => { if (err) throw err }
+  );
+
+}
+
+app.post('/scores/update', async (req, res) => {
   const these_scores = req.body;
 
   Object.keys(these_scores).forEach(key => {
@@ -177,12 +186,15 @@ app.post('/scores/update', (req, res) => {
     } else {
       points = null;
     }
-  
-    pool.query(
+    
+    updateSingleScore(studentId, topicId, points);
+    /*
+    const dummy = await pool.query(
       'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
       [studentId, topicId, points],
       (err, results) => { if (err) throw err }
     );
+    */
   });
   res.redirect('back');
 })
