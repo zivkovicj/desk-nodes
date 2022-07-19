@@ -88,6 +88,7 @@ module.exports = (students, topics, scores) => {
         const newTopicScore = scores.find(score => {return score.student_id === thisStudent && (score.points === null || score.points <= 70)}); 
         if (newTopicScore) {
           const newGroup = [newTopicScore.topic_id, false, [thisStudent]];
+          removeFromArray(needsPlacement, thisStudent);
           allocatedGroups.push(newGroup);
         }
       };

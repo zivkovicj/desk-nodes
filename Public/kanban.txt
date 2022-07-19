@@ -3,6 +3,10 @@
 BEFORE I BEGIN APPLYING FOR JOBS
 ***********************************
 
+Some basic instructions for users to know the purpose of the different functions.
+
+Documentation
+
 Main portfolio page that links to this and other projects.
   Iron Maiden front-end
 
