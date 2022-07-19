@@ -78,6 +78,7 @@ module.exports = (students, topics, scores) => {
             thisGroup[2].push(thisStudent);
             removeFromArray(needsPlacement, thisStudent);
             placed = true;
+            break;
           };
         };
 
