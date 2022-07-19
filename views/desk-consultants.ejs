@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,53 +8,62 @@
     <title>Document</title>
     <link href="style.css" rel="stylesheet" />
 </head>
+
 <body>
     <h1>Desk Consultants</h1>
-        <% groups.forEach(row => { %>
-            <div class="dc-row">
-                <% row.forEach(group => { %>
-                    
-                    <table>
-                        <% const topicName = topics.find(topic => topic.id === group[0]).name %>
-                        
-                        <% const student_cell = (studId, markIfConsultant) => { %>
-                            <% const this_student = students.find(student => { return student.id === studId}) %>
-                            <% let this_class="student-cell" %>
-                            <% if (markIfConsultant && group[1]) {this_class = "consultant-cell"} %>
-                            <td class="<%= this_class %>">
-                                <% if (this_student) { %>
-                                    <%= this_student.first_name %> <%= this_student.last_name[0] %>
-                                <% } %>
-                            </td>
-                        <% } %>
+    </br>
+    <h2>This arrangment places each student in a group with a topic where they have room to grow. </h2>
+    <h2>The highlighted students are "consultants". They have shown some mastery of the topic, so they might be able to
+        lead the group.</h2>
+    <h3>This may be used as a seating chart and projected onto a SMARTBoard for students to follow.</h3>
+</br>
+    <% groups.forEach(row=> { %>
+        <div class="space-around">
+            <% row.forEach(group=> { %>
 
-                        <tr>
-                            <% student_cell(group[2][0], true) %>
-                            <% student_cell(group[2][1]) %>
-                        </tr>
-                        <tr><th class="topic-cell" colspan="2">
-                            <%= topicName %>
-                        </th></tr>
-                        <tr>
-                            <% student_cell(group[2][2]) %>
-                            <% student_cell(group[2][3]) %>
-                        </tr>
-                        
-                    </table>
-                    
+                <table>
+                    <% const topicName=topics.find(topic=> topic.id === group[0]).name %>
+
+                        <% const student_cell=(studId, markIfConsultant)=> { %>
+                            <% const this_student=students.find(student=> { return student.id === studId}) %>
+                                <% let this_class="student-cell" %>
+                                    <% if (markIfConsultant && group[1]) {this_class="consultant-cell" } %>
+                                        <td class="<%= this_class %>">
+                                            <% if (this_student) { %>
+                                                <%= this_student.first_name %>
+                                                    <%= this_student.last_name[0] %>
+                                                        <% } %>
+                                        </td>
+                                        <% } %>
+
+                                            <tr>
+                                                <% student_cell(group[2][0], true) %>
+                                                    <% student_cell(group[2][1]) %>
+                                            </tr>
+                                            <tr>
+                                                <th class="topic-cell" colspan="2">
+                                                    <%= topicName %>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <% student_cell(group[2][2]) %>
+                                                    <% student_cell(group[2][3]) %>
+                                            </tr>
+
+                </table>
+
                 <% }) %>
-            </div>
+        </div>
         </br>
         </br>
-            
+
         <% }) %>
 
-        <%- include('partials/scoresheet_link.html') %>
-        <%- include('partials/students_link.html') %>
-        <%- include('partials/home_link.html') %>
+            <%- include('partials/scoresheet_link.html') %>
+                <%- include('partials/students_link.html') %>
+                    <%- include('partials/home_link.html') %>
 
-    
+
 </body>
 
 </html>
-

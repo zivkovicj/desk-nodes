@@ -34,9 +34,18 @@ h1 {
     
 }
 
-.dc-row {
+.space-around {
     display: flex;
     justify-content: space-around;
+}
+
+.start {
+    display: flex;
+    justify-content: start;
+}
+
+.margin {
+    margin: 20px;
 }
 
 .student-cell {
