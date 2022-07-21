@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { pool } = require('./config');
+var cookieParser = require('cookie-parser');
+const session = require("express-session")
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
@@ -15,13 +17,48 @@ const testaroo = require('./testaroo.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(cors());
+const store = new session.MemoryStore();
+app.use(session({ 
+  secret: "Shh, its a secret!",
+  saveUninitialized: false,
+  resave: false, 
+}));
+
 app.set('view engine', 'ejs');
 
 app.use(express.static('Public'));
 
+app.get('/cookietest', function (req, res) {
+  if (req.session.page_views) {
+    req.session.page_views++;
+    res.send("You visited this page " + req.session.page_views + " times");
+  } else {
+    req.session.page_views = 1;
+    res.send("Welcome to this page for the first time!");
+  }
+});
+
+
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (password == "Learning") {
+    req.session.authenticated = true;
+    req.session.user = { username, password };
+    res.render("home", {user: req.session.user})
+  } else {
+    res.status(403).json({ msg: "Bad Credentials" });
+  }
+})
+
 app.get('/desk-consultants', (req, res) => {
-  
+
   pool.query('SELECT * FROM scores', (err, results1) => {
     if (err) throw err;
 
@@ -38,14 +75,15 @@ app.get('/desk-consultants', (req, res) => {
         let topics = results3.rows;
 
         const groups = consultantsAlgo(students, topics, scores);
-        
 
-        res.render('desk-consultants', {students: students, topics: topics, scores: scores, groups: groups});
+
+        res.render('desk-consultants', { students: students, topics: topics, scores: scores, groups: groups });
 
       })
     });
   });
 });
+
 
 app.get('/students', (req, res) => {
   pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
@@ -57,9 +95,10 @@ app.get('/students', (req, res) => {
     const data_length = Math.ceil(student_data.length / 2);
     const group_1 = student_data.splice(0, data_length);
 
-    res.render('students', { group_1: group_1, group_2: student_data });
+    res.render('students', { group_1: group_1, group_2: student_data, user: req.session.user });
   })
 });
+
 
 app.get('/students/:id', (req, res) => {
   const id = parseInt(req.params.id);
@@ -88,17 +127,17 @@ app.post('/students', (req, res) => {
       pool.query('SELECT * FROM topics', (err, results) => {
         if (err) throw err;
         const topics = results.rows;
-        
+
         topics.forEach(topic => {
           pool.query('INSERT INTO scores (student_id, topic_id) VALUES ($1, $2)',
-          [newest_id, topic.id],
-          (err, results) => {
-            if (err) throw err;
-          })
+            [newest_id, topic.id],
+            (err, results) => {
+              if (err) throw err;
+            })
         });
         res.redirect('students');
       });
-      
+
     }
   );
 });
@@ -164,7 +203,7 @@ app.get('/scores', (req, res) => {
   });
 });
 
-const updateSingleScore = async(studentId, topicId, points) => {
+const updateSingleScore = async (studentId, topicId, points) => {
   const dummy = await pool.query(
     'UPDATE scores SET points = $3 WHERE student_id = $1 AND topic_id = $2',
     [studentId, topicId, points],
@@ -182,11 +221,11 @@ app.post('/scores/update', async (req, res) => {
     const topicId = parseInt(split_key[2]);
     let points;
     if (these_scores[key]) {
-      points = these_scores[key]; 
+      points = these_scores[key];
     } else {
       points = null;
     }
-    
+
     updateSingleScore(studentId, topicId, points);
     /*
     const dummy = await pool.query(
@@ -206,3 +245,5 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
   console.log('Press Ctrl+C to quit.');
 });
+
+module.exports = app;

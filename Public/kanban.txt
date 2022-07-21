@@ -1,40 +1,29 @@
 
-***********************************
-BEFORE I BEGIN APPLYING FOR JOBS
-***********************************
+Re-watch the video that included other tips for finding Dev jobs.
 
-Some basic instructions for users to know the purpose of the different functions.
+sessions
+
+Authentication
 
 Documentation
 
-Main portfolio page that links to this and other projects.
-  Iron Maiden front-end
-
-Link from MrZSchool back to portfolio
-
 Ask if anybody is willing to swap code reviews
 
-Make a ranked list of several good candidates.  Include LinkedIn and Indeed.  Re-watch the video that included other tips.
+Complete server tests
 
+Establish a way to reset the production database
 
-***********************************
-NEAR FUTURE
-***********************************
-
-Establish a way to reset the database
+Write unit tests for database actions
+Organize students, scores, and topics in their own router page
+Re-run tests after setting up router folders
 
 I think that I may have fixed the problem where many scores don't show up when the user relods the scoresheet.  But pay attention to whether it acutally fixed.
 Consider looking again at some async and await articles for a more efficient way to do this.  Or asking on StackOverflow.
 https://zellwk.com/blog/async-await-express/
 
-Authentication
-
-Clear out groups that only ended up with one student, then re-assign them.
-Notes about why some students ended up with the new topic.
+Notes about why some students ended up with the new topic.  Or in groups of one.
 
 Attendance-marking page before DC results.
-
-Organize students, scores, and topics in their own router page.
 
 Re-route upon deleting a student
 
@@ -46,7 +35,7 @@ Finish topic routes
   Delete
   Create scores upon creating a topic
 
-Implement tests
+
 
 
 ***********************************
@@ -56,8 +45,7 @@ FAR FUTURE
   Give user an announcement upon adding, updating, or deleting a student
   Don't assign consultants who scored above 90 unless we must
   Maybe one more pass for consultants who scored 100
-  Allocate students who have scored high in everything
-
+  
   If this ever gets used in a classroom again, make sure to implement a system to keep track of which students need a turn to be consultant.
 
 
