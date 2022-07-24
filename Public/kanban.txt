@@ -3,13 +3,12 @@ Re-watch the video that included other tips for finding Dev jobs.
 
 I think it's ready for the next push.  But mess around with the logging and sessions to check first.
 
-REmove unused lines from server file
+Remove unused lines from server file
 
 don't offer log out button on login page
 
-Put demo username and pass on that landing page
-Header on Landing Page
-Route to "home" after logging-in.
+make the password field into a password field
+Put demo username and pass on the landing page
 
 Finish reading TutorialsPoint
 
@@ -19,7 +18,7 @@ TutorialsPoint warned not to use MemoryStore during production to store session 
 
 Tests for sessions?
 
-Put logout button in header
+Log in as a teacher in the database
 
 Documentation
 
@@ -103,6 +102,9 @@ Finish student routes
   ✓ scores
   ✓ DC
   ✓ students view
+
+✓ Route to "home" after logging-in.
+✓ Put logout button in header
 
 
 
