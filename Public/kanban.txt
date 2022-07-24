@@ -1,27 +1,45 @@
 
 Re-watch the video that included other tips for finding Dev jobs.
 
-sessions
+I think it's ready for the next push.  But mess around with the logging and sessions to check first.
 
-Authentication
+REmove unused lines from server file
+
+don't offer log out button on login page
+
+Put demo username and pass on that landing page
+Header on Landing Page
+Route to "home" after logging-in.
+
+Finish reading TutorialsPoint
+
+Make page header
+
+TutorialsPoint warned not to use MemoryStore during production to store session information.  Learn what should be used in production.
+
+Tests for sessions?
+
+Put logout button in header
 
 Documentation
 
 Ask if anybody is willing to swap code reviews
 
 Complete server tests
+Organize students, scores, and topics in their own router page
+Re-run tests after setting up router folders
 
 Establish a way to reset the production database
 
 Write unit tests for database actions
-Organize students, scores, and topics in their own router page
-Re-run tests after setting up router folders
 
 I think that I may have fixed the problem where many scores don't show up when the user relods the scoresheet.  But pay attention to whether it acutally fixed.
 Consider looking again at some async and await articles for a more efficient way to do this.  Or asking on StackOverflow.
 https://zellwk.com/blog/async-await-express/
 
 Notes about why some students ended up with the new topic.  Or in groups of one.
+
+All the "link" partials could be combined into a single partial that takes a parameter
 
 Attendance-marking page before DC results.
 
@@ -85,8 +103,6 @@ Finish student routes
   ✓ scores
   ✓ DC
   ✓ students view
-
-
 
 
 

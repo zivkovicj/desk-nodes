@@ -26,21 +26,18 @@ app.use(session({
   resave: false, 
 }));
 
+
 app.set('view engine', 'ejs');
 
 app.use(express.static('Public'));
 
-app.get('/cookietest', function (req, res) {
-  if (req.session.page_views) {
-    req.session.page_views++;
-    res.send("You visited this page " + req.session.page_views + " times");
+const authorizedUser = (req, res, next) => {
+  if (req.session.authenticated) {
+    return next();
   } else {
-    req.session.page_views = 1;
-    res.send("Welcome to this page for the first time!");
+    res.redirect('/login')
   }
-});
-
-
+}
 
 app.get("/login", (req, res) => {
   res.render("login");
@@ -51,13 +48,31 @@ app.post('/login', (req, res) => {
   if (password == "Learning") {
     req.session.authenticated = true;
     req.session.user = { username, password };
-    res.render("home", {user: req.session.user})
+    res.redirect("home")
   } else {
     res.status(403).json({ msg: "Bad Credentials" });
   }
 })
 
-app.get('/desk-consultants', (req, res) => {
+app.get('/', (req, res) => {
+  res.redirect('login')
+})
+
+app.get('/home', (req, res) => {
+  res.render('home', {user: req.session.user});
+})
+
+app.get('/logout',(req,res) => {
+  req.session.destroy((err) => {
+      if(err) {
+          return console.log(err);
+      }
+      res.redirect('/login');
+  });
+
+});
+
+app.get('/desk-consultants', authorizedUser, (req, res) => {
 
   pool.query('SELECT * FROM scores', (err, results1) => {
     if (err) throw err;
@@ -77,7 +92,7 @@ app.get('/desk-consultants', (req, res) => {
         const groups = consultantsAlgo(students, topics, scores);
 
 
-        res.render('desk-consultants', { students: students, topics: topics, scores: scores, groups: groups });
+        res.render('desk-consultants', { students: students, topics: topics, scores: scores, groups: groups, user: req.session.user });
 
       })
     });
@@ -85,7 +100,7 @@ app.get('/desk-consultants', (req, res) => {
 });
 
 
-app.get('/students', (req, res) => {
+app.get('/students', authorizedUser, (req, res) => {
   pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
     if (error) {
       throw error
@@ -177,7 +192,7 @@ app.get('/topics', (req, res) => {
   res.status(200).send(topics);
 });
 
-app.get('/scores', (req, res) => {
+app.get('/scores', authorizedUser, (req, res) => {
   let students = [];
   let topics = [];
 
@@ -196,7 +211,7 @@ app.get('/scores', (req, res) => {
 
         topics = results3.rows;
 
-        res.render('scores', { students: students, topics: topics, scores: parsed_scores });
+        res.render('scores', { students: students, topics: topics, scores: parsed_scores, user: req.session.user });
       })
 
     });

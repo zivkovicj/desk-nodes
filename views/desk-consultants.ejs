@@ -10,12 +10,14 @@
 </head>
 
 <body>
+    <%- include('partials/header.html') %>
     <h1>Desk Consultants</h1>
     </br>
-    <h2>This arrangment places each student in a group with a topic where they have room to grow. </h2>
-    <h2>The highlighted students are "consultants". They have shown some mastery of the topic, so they might be able to
-        lead the group.</h2>
-    <h3>This may be used as a seating chart and projected onto a SMARTBoard for students to follow.</h3>
+    <h3>This arrangment places each student in a group with a topic where they have room to grow. </h3>
+    <h3>The highlighted students are "consultants". They have shown some mastery of the topic, so they might be able to
+        lead the group.</h3>
+    <h4>Feel free to visit the Scoresheet to change some scores.  Then come back to see how that affects the group arrangement.</h4>
+    <h4>This may be used as a seating chart and projected onto a SMARTBoard for students to follow.</h4>
 </br>
     <% groups.forEach(row=> { %>
         <div class="space-around">

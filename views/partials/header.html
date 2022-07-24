@@ -1,0 +1,12 @@
+<div class="header">
+    <div>
+        <h1>Mr. Z School</h1>
+    </div>
+    <div class="inline">
+        <% if (typeof user !== 'undefined') { %>
+            <%= user.username %>
+            <a class="right" href="/logout"><button>Log Out</button></a>
+        <% } %>
+        
+    </div>
+</div>

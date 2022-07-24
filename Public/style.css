@@ -5,6 +5,10 @@ body {
 
 td {}
 
+button {
+    margin: 10px;
+}
+
 .big-button {
     color: rgb(245, 240, 240);
     cursor: pointer;
@@ -138,3 +142,14 @@ th.rotated-text>div>span {
     text-align: right;
 }
 
+.inline {
+    display: inline;
+}
+
+.header {
+    padding: 10px;
+    background-color: lightskyblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
