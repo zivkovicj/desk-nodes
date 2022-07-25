@@ -1,7 +1,10 @@
 
 Re-watch the video that included other tips for finding Dev jobs.
 
-I think it's ready for the next push.  But mess around with the logging and sessions to check first.
+Moved students into its own router file so that it could be tested.  Continue this article to complete the test.
+https://www.theodinproject.com/lessons/nodejs-testing-routes-and-controllers
+
+'Home Page' button routes to login.  It should route to the home page.
 
 Remove unused lines from server file
 

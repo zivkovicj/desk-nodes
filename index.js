@@ -9,11 +9,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const app = express();
 
-const { students, topics, scores } = require('./data.js');
-
 const consultantsAlgo = require('./consult-algo.js');
-
-const testaroo = require('./testaroo.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,13 +27,10 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('Public'));
 
-const authorizedUser = (req, res, next) => {
-  if (req.session.authenticated) {
-    return next();
-  } else {
-    res.redirect('/login')
-  }
-}
+const studentsRouter = require("./routes/students");
+app.use("/students", studentsRouter);
+
+
 
 app.get("/login", (req, res) => {
   res.render("login");
@@ -72,7 +65,7 @@ app.get('/logout',(req,res) => {
 
 });
 
-app.get('/desk-consultants', authorizedUser, (req, res) => {
+app.get('/desk-consultants', (req, res) => {
 
   pool.query('SELECT * FROM scores', (err, results1) => {
     if (err) throw err;
@@ -99,100 +92,12 @@ app.get('/desk-consultants', authorizedUser, (req, res) => {
   });
 });
 
-
-app.get('/students', authorizedUser, (req, res) => {
-  pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    const student_data = results.rows;
-    const data_length = Math.ceil(student_data.length / 2);
-    const group_1 = student_data.splice(0, data_length);
-
-    res.render('students', { group_1: group_1, group_2: student_data, user: req.session.user });
-  })
-});
-
-
-app.get('/students/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  pool.query('SELECT * FROM students WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    const this_stud = results.rows[0];
-    res.render('student', { this_stud: this_stud });
-  })
-})
-
-app.post('/students', (req, res) => {
-  const { first_name, last_name } = req.body
-
-  pool.query(
-    'INSERT INTO students (first_name, last_name) VALUES ($1, $2) RETURNING id;',
-    [first_name, last_name],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      const newest_id = results.rows[0].id;
-
-      pool.query('SELECT * FROM topics', (err, results) => {
-        if (err) throw err;
-        const topics = results.rows;
-
-        topics.forEach(topic => {
-          pool.query('INSERT INTO scores (student_id, topic_id) VALUES ($1, $2)',
-            [newest_id, topic.id],
-            (err, results) => {
-              if (err) throw err;
-            })
-        });
-        res.redirect('students');
-      });
-
-    }
-  );
-});
-
-app.post('/students/update', (req, res) => {
-  const id = parseInt(req.body.id);
-  const { first_name, last_name } = req.body
-
-  pool.query(
-    'UPDATE students SET first_name = $1, last_name = $2 WHERE id = $3', [first_name, last_name, id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.redirect('../students');
-    }
-  )
-})
-
-app.post('/students/delete', (req, res) => {
-  const id = parseInt(req.body.id);
-
-  pool.query(
-    'DELETE FROM students WHERE id = $1', [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.status(201).json({ status: 'success', message: `Student deleted where id = ${id}.` });
-    }
-  )
-})
-
-
 app.get('/topics', (req, res) => {
   console.log("Getting topics in server");
   res.status(200).send(topics);
 });
 
-app.get('/scores', authorizedUser, (req, res) => {
+app.get('/scores', (req, res) => {
   let students = [];
   let topics = [];
 
