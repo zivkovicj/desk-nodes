@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/zivkovicj/desk-nodes#readme",
   "dependencies": {
+    "chai": "^4.3.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

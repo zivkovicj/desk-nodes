@@ -1,8 +1,13 @@
 
-Re-watch the video that included other tips for finding Dev jobs.
 
-Moved students into its own router file so that it could be tested.  Continue this article to complete the test.
-https://www.theodinproject.com/lessons/nodejs-testing-routes-and-controllers
+ENVIRONMENT VARIABLES AND GITIGNORE
+
+Test logging-in as a user.
+
+Look up other Node projects for your portfolio
+
+Testing sessions
+https://stackoverflow.com/questions/55754239/how-to-mock-req-session-on-mocha-chai-api-unit-test
 
 'Home Page' button routes to login.  It should route to the home page.
 

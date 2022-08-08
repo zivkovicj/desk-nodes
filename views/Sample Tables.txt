@@ -1,0 +1,49 @@
+
+
+TABLE tools
+    id  int primary key
+    type enum 
+    purchase_date
+    purchase_cost
+    current_value
+    idx times_rented
+
+TABLE customers
+    id primary
+    first_name
+    last_name
+    address foreign_key
+    number_of_orders
+
+
+TABLE address
+
+TABLE transactions
+    id 
+    [tool_id foreign_key
+    customer_id foreign_key]
+    date_of_rental
+    due_date
+    rental_price
+    actual_return_date
+    checkout_condition
+    return_condition
+
+
+SELECT * FROM transactions
+WHERE actual_return_date IS NULL
+JOIN customers
+WHERE transactions.customer_id = customers(id);
+
+SELECT * FROM customers
+LEFT JOIN transactions
+ON customer_id
+WHERE id IS NULL;
+
+TAKE HOME ASSIGNMENT
+IntelliJ Edition
+JDK8 
+
+
+
+

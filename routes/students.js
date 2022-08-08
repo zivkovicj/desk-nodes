@@ -4,7 +4,8 @@ const { pool } = require('../config');
 const authorizedUser = require('./helpers')
 
 
-students.get('/', authorizedUser, (req, res) => {
+
+students.get('/', (req, res) => {
     pool.query('SELECT * FROM students ORDER BY last_name', (error, results) => {
         if (error) {
             throw error
@@ -14,9 +15,10 @@ students.get('/', authorizedUser, (req, res) => {
         const data_length = Math.ceil(student_data.length / 2);
         const group_1 = student_data.splice(0, data_length);
 
-        res.render('students', { group_1: group_1, group_2: student_data, user: req.session.user });
+        res.render('students', { group_1: group_1, group_2: student_data, user: req.session.user });//
     })
 });
+
 
 students.get('/:id', authorizedUser, (req, res) => {
     const id = parseInt(req.params.id);
